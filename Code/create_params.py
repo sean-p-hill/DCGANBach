@@ -2,6 +2,10 @@ import os
 import pickle
 import sys
 
+"""
+This file is used to create .pkl files of parameters, so that different sets of 
+parameters can be easilly interchanged in experimentation through the command line.
+"""
 
 params = {'input_data'      : '12keys/Polyphonic',
           'batch_size'      : 16, 
@@ -18,23 +22,6 @@ params = {'input_data'      : '12keys/Polyphonic',
           'mini_batch'      : True}  
 
 
-
-# files = os.listdir('Params')
-
-# for f in files:
-#      print(f)
-#      try:
-#           # Modifying dict on file
-#           pfn = open(os.path.join('Params',f), "rb")
-#           p = pickle.load(pfn)
-#           pfn.close()
-
-#           # Print Parameters
-#           print(f'\n{f} Parameters:')
-#           for k,v in p.items(): print('{}: {}'.format(k,v))
-#           print(len(p))
-#      except:
-#           raise
 
 file = sys.argv[1]
 

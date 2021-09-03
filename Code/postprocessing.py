@@ -50,7 +50,9 @@ def updateNotes(newNotes,prevNotes):
     return res
 
 def image2midi(image_path,min_pitch,max_pitch, toaudio=True, play=False):
-    
+    '''
+    Convert images to MIDi files and then subsequently to .wav files
+    '''
 
     with Image.open(image_path) as image:
         im_arr = np.fromstring(image.convert('L').tobytes(), dtype=np.uint8)
@@ -105,10 +107,12 @@ def image2midi(image_path,min_pitch,max_pitch, toaudio=True, play=False):
     mm1 = tempo.MetronomeMark(number=80)
     midi_stream.insert(0,mm1)
 
+    # Saving music21 stream as midi
     path_list = image_path.split("/")
     midi_path = os.path.join(reduce(os.path.join,path_list[:-1]),path_list[-1].replace(".png","_PP.mid"))
     midi_stream.write('midi', fp=midi_path)
 
+    # Converting MIDI files to .wav
     fs = FluidSynth('../Data/MuseScore_General.sf2')
     fs.midi_to_audio(midi_path, midi_path.replace('.mid','.wav'))
     if play: fs.play_midi(midi_path)

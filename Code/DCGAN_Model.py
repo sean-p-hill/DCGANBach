@@ -43,6 +43,7 @@ class Generator64(nn.Module):
         # 32 x 32 x 64 - Strided Convolutional Transpose Layer & tanh Activation
         layers.append(nn.ConvTranspose2d( 64, 1, params.kernel_size, stride=2, padding=1, bias=False))
         layers.append(nn.Tanh())
+        
         # 64 x 64 x 1 - Output
         self.main = nn.Sequential(*layers)
 

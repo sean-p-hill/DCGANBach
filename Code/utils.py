@@ -14,15 +14,17 @@ from torchvision.datasets import ImageFolder
 # pip install git+https://github.com/kklemon/pytorch-fid
 from pytorch_fid import FrechetInceptionDistance
 
-def LSLoss(output,labels):
-    return 0.5 * (torch.mean((output-labels)**2))
-
 def gray2rgb(gray,batch=True):
+    '''
+    Convert images from grayscale to RGB for use with Frechet Inception Distance
+    '''
     if batch: return torch.cat([gray for _ in range(3)],1)
     else:     return torch.cat([gray for _ in range(3)],0)
 
 def FIDScore(real_batch,fake_batch,model,device,params):
-
+    '''
+    Helper function for evaluating FID score with pytorch_fid
+    '''
     print('Calculating Frechet Inception Distance...')
 
     fid = FrechetInceptionDistance(model, dims=64,batch_size=params.batch_size)
@@ -49,6 +51,9 @@ def mk_output_dir(google_colab):
     return output_dir
 
 def save_models(G,D,output_dir,fn=''):
+    '''
+    Save the models
+    '''
     torch.save(G, os.path.join(output_dir,f'generator{fn}.pth'))
     torch.save(D, os.path.join(output_dir,f'discriminator{fn}.pth'))
 
@@ -78,7 +83,9 @@ def import_data(fn,params):
     return dataloader
 
 def generate_params(param_fn, google_colab, gpu_num, input_data, fn, output_dir, use_hardcoded=False):
-
+    '''
+    Read parameters from .pkl file on disk
+    '''
     hardcoded_params = {  'input_data'      : input_data,
                           'batch_size'      : 16, 
                           'kernel_size'     : 4,
@@ -125,7 +132,7 @@ def generate_params(param_fn, google_colab, gpu_num, input_data, fn, output_dir,
 
 def plot_real(dataloader,output_dir):
 
-        # Plot some training images
+    # Plot some training images
     real_batch = next(iter(dataloader))
     plt.figure(figsize=(8,8))
     plt.axis("off")
